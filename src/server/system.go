@@ -47,7 +47,7 @@ func SystemHandler(w http.ResponseWriter, r *http.Request) {
 func checkDisk(param string) (state int, out string) {
 	out, state = "", OK
 	diskW, diskC, err := NagiosParam(param)
-	parts, err := disk.DiskPartitions(false)
+	parts, err := disk.Partitions(false)
 	if err != nil {
 		log.Println(err)
 		out = "DISK:ERR"
@@ -59,7 +59,7 @@ func checkDisk(param string) (state int, out string) {
 		if _, ok := IGNORE_DISK_FSTYPE_MAP[part.Fstype]; ok {
 			continue
 		}
-		v, err := disk.DiskUsage(part.Mountpoint)
+		v, err := disk.Usage(part.Mountpoint)
 		if err != nil {
 			log.Println(err)
 			out = "DISK:ERR"
